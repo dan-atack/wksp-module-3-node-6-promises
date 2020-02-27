@@ -11,10 +11,20 @@
 // or require them at the top of this file.
 // Remember to _export_ them from their file, if you plan on _requiring_ them.
 
-
+const { getAddressPosition } = require('./exercise-2');
+const { getCurrentTemperatureAtPosition } = require('./exercise-3');
 
 // Given an address as a string, returns the temperature
 // Use the getCurrentTemperatureAtPosition function
 function getCurrentTemperature(address) {
+    getAddressPosition(address)
+        .then(getCurrentTemperatureAtPosition)
+        .then(output => { 
+            console.log(`Temperature: ${output.currentTemp} degrees Fahrenheit`);
+            // added this to test if the data was moving all the way and not just being console logged... It was helpful to me lol.
+            return output.currentTemp;
+        })
+        .catch(error => console.log("Anh, you fucked up somewhere."))
+};
 
-}
+getCurrentTemperature("1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8");

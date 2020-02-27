@@ -13,26 +13,32 @@ const opencage = require('opencage-api-client');
 
 
 function getAddressPosition(address) {
+    // Request object takes a key and an address:
     const requestObj = {
-        key: '1315122032774d06b34c570f3bd70f7b',
+        key: '7c84850c2a554696ae1277e7d704868f',
         q: address
     };
-
+    // API Request is made here thru the opencage api client's geocode request method:
     return opencage.geocode(requestObj)
+        // When the request is returned, treat the data:
         .then(data => {
-            // if (data.status.code == 200) {
-                // if (data.results.length > 0) {
+             if (data.status.code == 200) {
+                 if (data.results.length > 0) {
                     const place = data.results[0];
-                    // console.log(place.geometry);
-                    return place;
-                // }
-            // } else {
-            //     // other possible response codes:
-            //     // https://opencagedata.com/api#codes
-            //     console.log('error', data.status.message);
-            // }
+                    // Then, return the coordinates
+                    return place.geometry;
+                };
+            } else {
+                // other possible response codes:
+                // https://opencagedata.com/api#codes
+                console.log('error', data.status.message);
+            }
         })
         .catch(error => console.log('error', error.message));
 }
 
 console.log(getAddressPosition('1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8'));
+// console.log(getAddressPosition('4327 Avenue de Lorimier, Montreal, QC H2H 2A9'));
+// console.log(getAddressPosition('10 Downing Street, London, England, SW1A 2AA'))
+
+module.exports = { getAddressPosition };
